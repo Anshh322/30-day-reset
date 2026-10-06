@@ -3,77 +3,145 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111827">
+<meta name="theme-color" content="#0b0d12">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="30-Day Reset">
+<meta name="apple-mobile-web-app-title" content="Anshid Reset">
 <link rel="manifest" href="manifest.json">
-<title>30-Day Reset</title>
+<title>Anshid Reset</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f5f5f5;color:#111827;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:520px;margin:auto;padding:calc(18px + env(safe-area-inset-top)) 16px calc(28px + env(safe-area-inset-bottom))}
-h1{margin:0;font-size:28px}.sub{color:#6b7280;margin:5px 0 18px}.top{display:flex;justify-content:space-between;align-items:center}
-.card{background:white;border:1px solid #e5e7eb;border-radius:18px;padding:16px;margin-top:14px}
-.bar{height:9px;background:#e5e7eb;border-radius:99px;overflow:hidden}.fill{height:100%;background:#111827;width:0}
-.label{font-weight:700;margin:15px 0 8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-button,textarea{font:inherit}button{min-height:46px;border:1px solid #d1d5db;border-radius:13px;background:white;padding:10px 12px;color:#111827}
-button.selected{background:#111827;color:white;border-color:#111827}button:disabled{opacity:.4}
-textarea{width:100%;min-height:82px;border:1px solid #d1d5db;border-radius:13px;padding:11px;resize:vertical}
-.nav{display:flex;gap:9px;margin-top:15px}.nav button{flex:1}.days{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}.days button{min-height:42px;padding:4px;font-size:13px}
-.small{font-size:13px;color:#6b7280}.stat{font-size:25px;font-weight:800}.reset{background:#fff7ed;border-color:#fed7aa}
+:root{--bg:#080a0f;--card:#11151d;--card2:#171c26;--text:#f5f7fb;--muted:#9aa4b2;--line:#252c38;--accent:#8b5cf6;--accent2:#22c55e;--danger:#ef4444;--warn:#f59e0b}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#080a0f,#0d1118);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif;padding-bottom:92px}
+button,input,textarea,select{font:inherit}button{border:0;color:inherit}.app{max-width:720px;margin:auto;padding:env(safe-area-inset-top) 16px 24px}
+header{padding:22px 4px 12px;display:flex;justify-content:space-between;align-items:center}h1{font-size:28px;margin:0;font-weight:800}h2{font-size:21px;margin:8px 0 14px}.sub{color:var(--muted);font-size:13px}
+.card{background:rgba(17,21,29,.94);border:1px solid var(--line);border-radius:20px;padding:17px;margin:12px 0;box-shadow:0 10px 30px #0003}
+.hero{background:linear-gradient(135deg,#1c1530,#11151d 65%);border-color:#3b2b62}
+.big{font-size:42px;font-weight:850;line-height:1}.progress{height:9px;background:#252b36;border-radius:99px;overflow:hidden;margin:12px 0}.bar{height:100%;background:linear-gradient(90deg,var(--accent),#c084fc);border-radius:99px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat{background:var(--card2);border-radius:15px;padding:13px}.stat b{font-size:23px}.stat span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+nav{position:fixed;z-index:10;bottom:0;left:0;right:0;background:#0d1118ee;border-top:1px solid var(--line);backdrop-filter:blur(18px);padding:8px max(10px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));display:flex;justify-content:center}
+.navin{max-width:720px;width:100%;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.navbtn{background:transparent;color:#7f8998;padding:7px 2px;border-radius:12px;font-size:11px}.navbtn.active{color:#fff;background:#1b2130}.navbtn .ico{display:block;font-size:20px;margin-bottom:2px}
+.page{display:none}.page.active{display:block}.row{display:flex;gap:9px;align-items:center}.between{justify-content:space-between}
+label{display:block;font-size:12px;color:var(--muted);margin:12px 0 6px}input,textarea,select{width:100%;background:#0c1017;color:#fff;border:1px solid #2a3240;border-radius:12px;padding:12px;outline:none}textarea{min-height:90px;resize:vertical}
+.btn{padding:12px 15px;border-radius:12px;background:#252d3b;font-weight:700;cursor:pointer}.primary{background:var(--accent)}.green{background:#168044}.red{background:#8f2525}.ghost{background:transparent;border:1px solid var(--line)}
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:8px}.choice button{background:#171c26;border:1px solid #2a3240;padding:12px;border-radius:12px}.choice button.sel{border-color:var(--accent);background:#241c3d}
+.check{display:flex;align-items:center;gap:10px;background:#171c26;padding:12px;border-radius:12px;margin:7px 0}.check input{width:20px;height:20px}
+.day{border:1px solid var(--line);border-radius:14px;padding:13px;margin:9px 0;background:#121720}.day.done{border-color:#226b43}.daytop{display:flex;justify-content:space-between;align-items:center}.pill{font-size:11px;background:#222a36;padding:5px 8px;border-radius:99px;color:#b9c1cd}
+.toast{position:fixed;z-index:30;left:50%;bottom:105px;transform:translateX(-50%);background:#f5f7fb;color:#080a0f;padding:10px 15px;border-radius:12px;font-weight:700;display:none}
+.lock{position:fixed;inset:0;z-index:50;background:#080a0f;display:flex;align-items:center;justify-content:center;padding:25px}.lockbox{width:min(390px,100%);text-align:center}.logo{font-size:48px;margin-bottom:8px}
+.small{font-size:12px;color:var(--muted)}.danger{color:#ff7b7b}.success{color:#5ee08b}
+@media(min-width:650px){.grid{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 <body>
-<main>
-<div class="top"><div><h1>30-Day Reset</h1><div class="sub">One day at a time, bro. ❤️</div></div><div style="text-align:right"><div id="clean" class="stat">0</div><div class="small">clean days</div></div></div>
-<div class="card"><div style="display:flex;justify-content:space-between" class="small"><span id="dayLabel">Day 1 of 30</span><span id="pct">0%</span></div><div class="bar" style="margin-top:7px"><div id="fill" class="fill"></div></div></div>
-<div id="today" class="card"></div>
-<div class="card"><b>Month overview</b><div id="days" class="days" style="margin-top:10px"></div></div>
-<div class="card reset"><b>Start over</b><div class="small" style="margin:5px 0 10px">This clears the current 30-day tracker.</div><button id="reset">Reset tracker</button></div>
-</main>
+<div id="lock" class="lock">
+  <div class="lockbox">
+    <div class="logo">🛡️</div><h1>ANSHID RESET</h1>
+    <p class="sub">Your private reset space</p>
+    <div id="pinSetup" style="display:none"><p>Set a 4–6 digit PIN.</p><input id="newPin" inputmode="numeric" maxlength="6" placeholder="PIN"><button class="btn primary" style="width:100%;margin-top:10px" onclick="setPin()">Create PIN</button></div>
+    <div id="pinLogin"><input id="pin" inputmode="numeric" maxlength="6" placeholder="Enter PIN"><button class="btn primary" style="width:100%;margin-top:10px" onclick="unlock()">Unlock</button><p id="pinErr" class="danger"></p></div>
+  </div>
+</div>
+
+<div class="app" id="app" style="display:none">
+<header><div><h1>ANSHID RESET</h1><div class="sub">30 days. One day at a time. 🔥</div></div><button class="btn ghost" onclick="lockApp()">🔒</button></header>
+
+<section id="home" class="page active">
+  <div class="card hero">
+    <div class="sub">CURRENT PROGRESS</div>
+    <div class="row between" style="margin-top:7px"><div><span class="big" id="dayNum">1</span><span class="sub"> / 30 days</span></div><span id="streak" class="pill">🔥 0 day streak</span></div>
+    <div class="progress"><div id="overallBar" class="bar" style="width:0%"></div></div>
+    <div class="sub" id="progressText">0 completed days</div>
+  </div>
+  <div class="grid">
+    <div class="stat"><b id="cleanDays">0</b><span>Clean days</span></div>
+    <div class="stat"><b id="bestStreak">0</b><span>Best streak</span></div>
+    <div class="stat"><b id="avgUrge">0</b><span>Avg urge</span></div>
+    <div class="stat"><b id="avgMood">0</b><span>Avg mood</span></div>
+  </div>
+  <div class="card"><h2>Today's mission</h2><p class="sub">Complete your check-in, move your body, protect your sleep, and keep going.</p><button class="btn primary" style="width:100%" onclick="go('checkin')">✍️ Open today's check-in</button></div>
+  <div class="card"><h2>Quick habits</h2><div id="habitHome"></div></div>
+</section>
+
+<section id="checkin" class="page">
+<h2>Daily Check-in</h2><div class="sub" id="checkDate"></div>
+<div class="card">
+<label>Porn</label><div class="choice"><button id="pornYes" onclick="choose('porn',true)">YES</button><button id="pornNo" onclick="choose('porn',false)">NO</button></div>
+<label>Masturbation</label><div class="choice"><button id="mastYes" onclick="choose('mast',true)">YES</button><button id="mastNo" onclick="choose('mast',false)">NO</button></div>
+<label>Strongest urge: <b id="urgeVal">0</b>/10</label><input id="urge" type="range" min="0" max="10" value="0" oninput="document.getElementById('urgeVal').textContent=this.value">
+<label>Trigger / situation</label><select id="trigger"><option value="">Choose</option><option>Boredom</option><option>Stress</option><option>Loneliness</option><option>Scrolling</option><option>Night / phone</option><option>Relationship/emotions</option><option>Other</option></select>
+<label>Healthy activity</label><select id="activity"><option value="">Choose</option><option>Workout</option><option>Walk</option><option>Study</option><option>Work</option><option>Prayer / reflection</option><option>Time with family</option><option>Hobby</option><option>Other</option></select>
+<label>Sleep 7+ hours</label><div class="choice"><button id="sleepYes" onclick="choose('sleep',true)">YES</button><button id="sleepNo" onclick="choose('sleep',false)">NO</button></div>
+<label>Mood: <b id="moodVal">5</b>/10</label><input id="mood" type="range" min="1" max="10" value="5" oninput="document.getElementById('moodVal').textContent=this.value">
+<label>Private notes</label><textarea id="notes" placeholder="What helped? What was difficult?"></textarea>
+<button class="btn primary" style="width:100%;margin-top:15px" onclick="saveCheckin()">Save today's check-in</button>
+</div>
+</section>
+
+<section id="habits" class="page"><h2>Habits</h2><div class="sub">Small wins become your identity.</div><div class="card" id="habitList"></div></section>
+
+<section id="workout" class="page"><h2>Workout</h2><div class="sub">Simple home / dumbbell routine.</div>
+<div class="card">
+<div class="day"><b>MON — Shoulders + Neck</b><p class="small">Shoulder press · lateral raises · rear delt fly · neck mobility</p></div>
+<div class="day"><b>TUE — Legs + Forearms</b><p class="small">Squats · RDL · lunges · calf raises · wrist curls</p></div>
+<div class="day"><b>WED — Chest + Triceps</b><p class="small">Push-ups · DB press · overhead triceps · dips</p></div>
+<div class="day"><b>THU — Back + Biceps</b><p class="small">DB rows · rear delts · curls · hammer curls</p></div>
+<div class="day"><b>FRI — Shoulders + Neck</b><p class="small">Shoulder press · lateral raises · rear delts · neck mobility</p></div>
+<div class="day"><b>SAT — Legs + Forearms</b><p class="small">Squats · RDL · split squats · calves · forearms</p></div>
+<div class="day"><b>SUN — Recovery</b><p class="small">Walking, mobility and recovery.</p></div>
+</div></section>
+
+<section id="progress" class="page"><h2>Progress</h2><div class="card"><h2>30-Day Overview</h2><div id="days"></div></div></section>
+
+<section id="settings" class="page"><h2>Settings</h2><div class="card">
+<h2>Privacy</h2><p class="sub">Your tracker entries are stored locally in this browser/device. They are not sent to a server by this app.</p>
+<button class="btn ghost" onclick="lockApp()">🔒 Lock app now</button>
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+<h2>Data</h2><button class="btn ghost" onclick="exportData()">Export my data</button> <button class="btn red" onclick="resetData()">Delete all data</button>
+</div></section>
+</div>
+
+<nav><div class="navin">
+<button class="navbtn active" data-page="home" onclick="go('home')"><span class="ico">🏠</span>Home</button>
+<button class="navbtn" data-page="checkin" onclick="go('checkin')"><span class="ico">✍️</span>Check-in</button>
+<button class="navbtn" data-page="habits" onclick="go('habits')"><span class="ico">✅</span>Habits</button>
+<button class="navbtn" data-page="workout" onclick="go('workout')"><span class="ico">💪</span>Workout</button>
+<button class="navbtn" data-page="progress" onclick="go('progress')"><span class="ico">📊</span>Progress</button>
+</div></nav>
+<div id="toast" class="toast"></div>
+
 <script>
-const KEY="reset30_v1";
-let data=JSON.parse(localStorage.getItem(KEY)||"null")||Array.from({length:30},(_,i)=>({day:i+1,porn:"",mast:"",urge:"",trigger:"",activity:"",sleep:"",mood:"",note:""}));
-let current=0;
-const triggers=["Bored","Stress","Lonely","Scrolling","Night/bed","Sexual content","Other"];
-const activities=["Workout","Walk","Prayer/meditation","Study/work","Friends/family","Hobby"];
-function save(){localStorage.setItem(KEY,JSON.stringify(data));}
-function button(label,key,val){
- const b=document.createElement("button");b.textContent=label;
- if(data[current][key]===val)b.className="selected";
- b.onclick=()=>{data[current][key]=val;save();render()};return b;
+const KEY='anshid_reset_v2';
+let state=JSON.parse(localStorage.getItem(KEY)||'null');
+if(!state) state={pin:'',days:{},habits:{}};
+const habits=['No unnecessary scrolling','Workout / movement','7+ hours sleep','Study / skill work','Stayed within budget','Prayer / reflection','No gambling'];
+let selected={porn:null,mast:null,sleep:null};
+
+function todayKey(){return new Date().toISOString().slice(0,10)}
+function dayIndex(){const start=new Date('2026-10-07T00:00:00');const now=new Date();return Math.min(30,Math.max(1,Math.floor((new Date(now.getFullYear(),now.getMonth(),now.getDate())-start)/86400000)+1))}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function init(){
+ if(!state.pin){document.getElementById('pinSetup').style.display='block';document.getElementById('pinLogin').style.display='none'}
+ else document.getElementById('pinLogin').style.display='block';
+ render();
 }
-function section(title,key,vals){
- const d=document.createElement("div");d.innerHTML=`<div class="label">${title}</div>`;
- const g=document.createElement("div");g.className="grid";vals.forEach(v=>g.appendChild(button(v,key,v)));d.appendChild(g);return d;
-}
-function render(){
- const s=data[current],t=document.getElementById("today");t.innerHTML=`<b>Day ${s.day}</b><div class="small">Check in honestly. No shame, just data.</div>`;
- t.appendChild(section("Porn","porn",["YES","NO"]));
- t.appendChild(section("Masturbation","mast",["YES","NO"]));
- t.appendChild(section("Strongest urge (0–10)","urge",["0","2","4","6","8","10"]));
- t.appendChild(section("Main trigger","trigger",triggers));
- t.appendChild(section("Healthy activity","activity",activities));
- t.appendChild(section("Sleep 7+ hours?","sleep",["YES","NO"]));
- t.appendChild(section("Mood (1–10)","mood",["2","4","6","8","10"]));
- const n=document.createElement("div");n.innerHTML='<div class="label">Notes</div>';
- const ta=document.createElement("textarea");ta.placeholder="What happened today? What helped?";ta.value=s.note;
- ta.oninput=()=>{data[current].note=ta.value;save()};n.appendChild(ta);t.appendChild(n);
- const nav=document.createElement("div");nav.className="nav";
- const prev=document.createElement("button");prev.textContent="← Previous";prev.disabled=current===0;prev.onclick=()=>{current--;render()};
- const next=document.createElement("button");next.textContent=current===29?"Finish":"Next →";next.onclick=()=>{if(current<29){current++;render()}else alert("Day 30 complete. Proud of you, bro. ❤️")};
- nav.append(prev,next);t.appendChild(nav);
- const completed=data.filter(x=>x.porn&&x.mast).length;
- const clean=data.filter(x=>x.porn==="NO"&&x.mast==="NO").length;
- document.getElementById("clean").textContent=clean;
- document.getElementById("dayLabel").textContent=`Day ${s.day} of 30`;
- document.getElementById("pct").textContent=Math.round(completed/30*100)+"%";
- document.getElementById("fill").style.width=(completed/30*100)+"%";
- const days=document.getElementById("days");days.innerHTML="";
- data.forEach((x,i)=>{const b=document.createElement("button");b.textContent=x.day+(x.porn==="NO"&&x.mast==="NO"?" ✓":"");if(i===current)b.className="selected";b.onclick=()=>{current=i;render()};days.appendChild(b)});
-}
-document.getElementById("reset").onclick=()=>{if(confirm("Clear all 30 days and start again?")){localStorage.removeItem(KEY);location.reload()}};
-if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
-render();
+function setPin(){let p=document.getElementById('newPin').value;if(!/^\d{4,6}$/.test(p))return toast('Use 4–6 digits');state.pin=p;save();document.getElementById('lock').style.display='none';document.getElementById('app').style.display='block';render()}
+function unlock(){if(document.getElementById('pin').value===state.pin){document.getElementById('lock').style.display='none';document.getElementById('app').style.display='block';render()}else document.getElementById('pinErr').textContent='Wrong PIN'}
+function lockApp(){document.getElementById('app').style.display='none';document.getElementById('lock').style.display='flex';document.getElementById('pin').value=''}
+function toast(t){let x=document.getElementById('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',1800)}
+function go(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(page).classList.add('active');document.querySelectorAll('.navbtn').forEach(x=>x.classList.toggle('active',x.dataset.page===page));if(page==='progress')renderDays();if(page==='habits')renderHabits();if(page==='checkin')loadCheckin()}
+function choose(k,v){selected[k]=v;let map={porn:['pornYes','pornNo'],mast:['mastYes','mastNo'],sleep:['sleepYes','sleepNo']};document.getElementById(map[k][0]).classList.toggle('sel',v===true);document.getElementById(map[k][1]).classList.toggle('sel',v===false)}
+function loadCheckin(){let d=state.days[todayKey()]||{};selected={porn:d.porn??null,mast:d.mast??null,sleep:d.sleep??null};choose('porn',selected.porn);choose('mast',selected.mast);choose('sleep',selected.sleep);document.getElementById('urge').value=d.urge??0;document.getElementById('urgeVal').textContent=d.urge??0;document.getElementById('mood').value=d.mood??5;document.getElementById('moodVal').textContent=d.mood??5;document.getElementById('trigger').value=d.trigger||'';document.getElementById('activity').value=d.activity||'';document.getElementById('notes').value=d.notes||'';document.getElementById('checkDate').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'})}
+function saveCheckin(){state.days[todayKey()]={...selected,urge:+document.getElementById('urge').value,mood:+document.getElementById('mood').value,trigger:document.getElementById('trigger').value,activity:document.getElementById('activity').value,notes:document.getElementById('notes').value,savedAt:new Date().toISOString()};save();toast('Saved ❤️');render()}
+function completedCount(){return Object.values(state.days).filter(d=>d.savedAt).length}
+function streak(){let s=0,b=0,keys=Object.keys(state.days).sort();for(let i=keys.length-1;i>=0;i--){if(state.days[keys[i]].porn===false&&state.days[keys[i]].mast===false)s++;else if(state.days[keys[i]].porn===true||state.days[keys[i]].mast===true)break}let cur=0;keys.forEach(k=>{let d=state.days[k];if(d.porn===false&&d.mast===false){cur++;b=Math.max(b,cur)}else if(d.porn===true||d.mast===true)cur=0});return [s,b]}
+function render(){let c=completedCount(),[s,b]=streak();document.getElementById('dayNum').textContent=dayIndex();document.getElementById('overallBar').style.width=Math.min(100,c/30*100)+'%';document.getElementById('progressText').textContent=c+' completed day'+(c===1?'':'s');document.getElementById('streak').textContent='🔥 '+s+' day streak';document.getElementById('cleanDays').textContent=Object.values(state.days).filter(d=>d.porn===false&&d.mast===false).length;document.getElementById('bestStreak').textContent=b;let vals=Object.values(state.days);document.getElementById('avgUrge').textContent=vals.length?(vals.reduce((a,d)=>a+(d.urge||0),0)/vals.length).toFixed(1):'0';document.getElementById('avgMood').textContent=vals.length?(vals.reduce((a,d)=>a+(d.mood||0),0)/vals.length).toFixed(1):'0';renderHabits(true)}
+function renderHabits(home=false){let wrap=document.getElementById(home?'habitHome':'habitList');if(!wrap)return;let k=todayKey();state.habits[k] ||= {};wrap.innerHTML=habits.map((h,i)=>`<label class="check"><input type="checkbox" ${state.habits[k][i]?'checked':''} onchange="toggleHabit(${i},this.checked)"> <span>${h}</span></label>`).join('')}
+function toggleHabit(i,v){state.habits[todayKey()] ||= {};state.habits[todayKey()][i]=v;save();renderHabits(true)}
+function renderDays(){let w=document.getElementById('days');w.innerHTML='';let start=new Date('2026-10-07T00:00:00');for(let i=1;i<=30;i++){let d=new Date(start);d.setDate(start.getDate()+i-1);let k=d.toISOString().slice(0,10),x=state.days[k];let done=x?.savedAt,clean=x?.porn===false&&x?.mast===false;w.innerHTML+=`<div class="day ${done?'done':''}"><div class="daytop"><b>Day ${i}</b><span class="pill">${d.toLocaleDateString(undefined,{day:'2-digit',month:'short'})}</span></div><div class="small">${done?(clean?'✅ Clean day':'📝 Check-in recorded'):'○ Not completed'}</div></div>`}}
+function exportData(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='anshid-reset-backup.json';a.click();URL.revokeObjectURL(a.href)}
+function resetData(){if(confirm('Delete all tracker data? This cannot be undone.')){localStorage.removeItem(KEY);location.reload()}}
+init();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
-</body></html>
+</body>
+</html>

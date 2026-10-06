@@ -1,10 +1,11 @@
 {
-  "name": "30-Day Reset",
-  "short_name": "30-Day Reset",
+  "name": "Anshid Reset",
+  "short_name": "Anshid Reset",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f5f5f5",
-  "theme_color": "#111827",
+  "background_color": "#080a0f",
+  "theme_color": "#0b0d12",
+  "description": "Private 30-day personal reset tracker",
   "icons": [
     {
       "src": "icon.svg",
