@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="30-Day Reset">
+<link rel="manifest" href="manifest.json">
+<title>30-Day Reset</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f5f5;color:#111827;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:520px;margin:auto;padding:calc(18px + env(safe-area-inset-top)) 16px calc(28px + env(safe-area-inset-bottom))}
+h1{margin:0;font-size:28px}.sub{color:#6b7280;margin:5px 0 18px}.top{display:flex;justify-content:space-between;align-items:center}
+.card{background:white;border:1px solid #e5e7eb;border-radius:18px;padding:16px;margin-top:14px}
+.bar{height:9px;background:#e5e7eb;border-radius:99px;overflow:hidden}.fill{height:100%;background:#111827;width:0}
+.label{font-weight:700;margin:15px 0 8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+button,textarea{font:inherit}button{min-height:46px;border:1px solid #d1d5db;border-radius:13px;background:white;padding:10px 12px;color:#111827}
+button.selected{background:#111827;color:white;border-color:#111827}button:disabled{opacity:.4}
+textarea{width:100%;min-height:82px;border:1px solid #d1d5db;border-radius:13px;padding:11px;resize:vertical}
+.nav{display:flex;gap:9px;margin-top:15px}.nav button{flex:1}.days{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}.days button{min-height:42px;padding:4px;font-size:13px}
+.small{font-size:13px;color:#6b7280}.stat{font-size:25px;font-weight:800}.reset{background:#fff7ed;border-color:#fed7aa}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><div><h1>30-Day Reset</h1><div class="sub">One day at a time, bro. ❤️</div></div><div style="text-align:right"><div id="clean" class="stat">0</div><div class="small">clean days</div></div></div>
+<div class="card"><div style="display:flex;justify-content:space-between" class="small"><span id="dayLabel">Day 1 of 30</span><span id="pct">0%</span></div><div class="bar" style="margin-top:7px"><div id="fill" class="fill"></div></div></div>
+<div id="today" class="card"></div>
+<div class="card"><b>Month overview</b><div id="days" class="days" style="margin-top:10px"></div></div>
+<div class="card reset"><b>Start over</b><div class="small" style="margin:5px 0 10px">This clears the current 30-day tracker.</div><button id="reset">Reset tracker</button></div>
+</main>
+<script>
+const KEY="reset30_v1";
+let data=JSON.parse(localStorage.getItem(KEY)||"null")||Array.from({length:30},(_,i)=>({day:i+1,porn:"",mast:"",urge:"",trigger:"",activity:"",sleep:"",mood:"",note:""}));
+let current=0;
+const triggers=["Bored","Stress","Lonely","Scrolling","Night/bed","Sexual content","Other"];
+const activities=["Workout","Walk","Prayer/meditation","Study/work","Friends/family","Hobby"];
+function save(){localStorage.setItem(KEY,JSON.stringify(data));}
+function button(label,key,val){
+ const b=document.createElement("button");b.textContent=label;
+ if(data[current][key]===val)b.className="selected";
+ b.onclick=()=>{data[current][key]=val;save();render()};return b;
+}
+function section(title,key,vals){
+ const d=document.createElement("div");d.innerHTML=`<div class="label">${title}</div>`;
+ const g=document.createElement("div");g.className="grid";vals.forEach(v=>g.appendChild(button(v,key,v)));d.appendChild(g);return d;
+}
+function render(){
+ const s=data[current],t=document.getElementById("today");t.innerHTML=`<b>Day ${s.day}</b><div class="small">Check in honestly. No shame, just data.</div>`;
+ t.appendChild(section("Porn","porn",["YES","NO"]));
+ t.appendChild(section("Masturbation","mast",["YES","NO"]));
+ t.appendChild(section("Strongest urge (0–10)","urge",["0","2","4","6","8","10"]));
+ t.appendChild(section("Main trigger","trigger",triggers));
+ t.appendChild(section("Healthy activity","activity",activities));
+ t.appendChild(section("Sleep 7+ hours?","sleep",["YES","NO"]));
+ t.appendChild(section("Mood (1–10)","mood",["2","4","6","8","10"]));
+ const n=document.createElement("div");n.innerHTML='<div class="label">Notes</div>';
+ const ta=document.createElement("textarea");ta.placeholder="What happened today? What helped?";ta.value=s.note;
+ ta.oninput=()=>{data[current].note=ta.value;save()};n.appendChild(ta);t.appendChild(n);
+ const nav=document.createElement("div");nav.className="nav";
+ const prev=document.createElement("button");prev.textContent="← Previous";prev.disabled=current===0;prev.onclick=()=>{current--;render()};
+ const next=document.createElement("button");next.textContent=current===29?"Finish":"Next →";next.onclick=()=>{if(current<29){current++;render()}else alert("Day 30 complete. Proud of you, bro. ❤️")};
+ nav.append(prev,next);t.appendChild(nav);
+ const completed=data.filter(x=>x.porn&&x.mast).length;
+ const clean=data.filter(x=>x.porn==="NO"&&x.mast==="NO").length;
+ document.getElementById("clean").textContent=clean;
+ document.getElementById("dayLabel").textContent=`Day ${s.day} of 30`;
+ document.getElementById("pct").textContent=Math.round(completed/30*100)+"%";
+ document.getElementById("fill").style.width=(completed/30*100)+"%";
+ const days=document.getElementById("days");days.innerHTML="";
+ data.forEach((x,i)=>{const b=document.createElement("button");b.textContent=x.day+(x.porn==="NO"&&x.mast==="NO"?" ✓":"");if(i===current)b.className="selected";b.onclick=()=>{current=i;render()};days.appendChild(b)});
+}
+document.getElementById("reset").onclick=()=>{if(confirm("Clear all 30 days and start again?")){localStorage.removeItem(KEY);location.reload()}};
+if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
+render();
+</script>
+</body></html>
